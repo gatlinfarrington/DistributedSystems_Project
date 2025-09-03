@@ -6,7 +6,6 @@ import raft_pb2 as pb
 import raft_pb2_grpc as pb_grpc
 
 class KeyValueStoreService(pb_grpc.KeyValueStoreServicer):
-    # TODO: implement StartRaft, StartServer, Get, Put
     def ping(self, request, context):
         return pb.GenericResponse(success=True)
     
@@ -14,7 +13,6 @@ class KeyValueStoreService(pb_grpc.KeyValueStoreServicer):
         return pb.State(term=0, isLeader=False)
 
 def serve():
-    # Get the port
     server_id, port = parse_args()
 
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

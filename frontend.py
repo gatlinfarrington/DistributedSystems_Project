@@ -6,7 +6,6 @@ import raft_pb2 as pb
 import raft_pb2_grpc as pb_grpc
 
 class FrontEndService(pb_grpc.FrontEndServicer):
-    # TODO: implement StartRaft, StartServer, Get, Put
     def Get(self, request, context):
         return pb.Reply(error="Not implemented", wrongLeader=True)
     
@@ -15,16 +14,14 @@ class FrontEndService(pb_grpc.FrontEndServicer):
     
     def StartRaft(self, request, context):
         start_raft(request.arg)
-        return pb.Reply(value="Not implemented")
+        return pb.Reply(value="Started Raft cluster of size {request.arg}")
     
     def StartServer(self, request, context):
         start_server(request.arg)
         return pb.Reply(value=f"Server {request.arg} started")
 
-# Process creation in frontend.py
 def start_server(server_id):
     cmd = ["python", "server.py", str(server_id)]
-    # Use exec to set process name for killability
     process = subprocess.Popen(
         ["bash", "-c", f"exec -a raftserver{server_id+1} python server.py {server_id}"]
     )
